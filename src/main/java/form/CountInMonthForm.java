@@ -3,7 +3,6 @@ package form;
 import javax.persistence.ColumnResult;
 import javax.persistence.ConstructorResult;
 import javax.persistence.SqlResultSetMapping;
-import java.sql.Date;
 
 /**
  * Created by Almaz on 01.05.2016.
@@ -14,14 +13,14 @@ import java.sql.Date;
 })
 public class CountInMonthForm {
     private int count;
-    private Date date;
+    private int day;
 
-    public Date getDate() {
-        return date;
+    public int getDay() {
+        return day;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDay(int day) {
+        this.day = day;
     }
 
     public int getCount() {

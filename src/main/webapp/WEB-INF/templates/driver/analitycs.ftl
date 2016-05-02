@@ -45,7 +45,7 @@
                                             <input type="month" name="monthAnalytic" id="monthAnalytic" style="height: 30px;">
                                         </div>
                                         <div class="span4">
-                                            <button class="btn btn-default" id="monthBtn">Обновить</button>
+                                            <button class="btn btn-default" id="monthBtn" onclick="renderMonthChart()">Обновить</button>
                                         </div>
                                         <div>
                                             <canvas id="monthChart"></canvas>
@@ -92,8 +92,9 @@
         <p>&copy;2003 - 2016 Служба заказа такси «Алмаз»</p>
     </footer>
 </div>
-<#include "../analytic/analyticCharts.ftl">
 <script src="/js/jquery-2.2.3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.0.1/Chart.min.js"></script>
+<script src="/js/analytic/analyticCharts.js"></script>
 <script src="/js/analytic/analyticMain.js"></script>
 </body>
 </html>

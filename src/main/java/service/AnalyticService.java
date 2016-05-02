@@ -1,8 +1,9 @@
 package service;
 
 import form.BasicInformationForm;
-import form.CountInMonthForm;
+import form.CountInYearForm;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +11,7 @@ import java.util.List;
  */
 
 public interface AnalyticService {
-    List<CountInMonthForm> findAllInMonthByDriverId(int driverId, int month);
-
+    ArrayList<Integer> findAllInMonthByDriverId(int driverId, String date);
+    List<CountInYearForm> findAllInYearByDriverId(int driverId, int year);
     BasicInformationForm findBasicInfoByDriver_Id(int driverId);
 }

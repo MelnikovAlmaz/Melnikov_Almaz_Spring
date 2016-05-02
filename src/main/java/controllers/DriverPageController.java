@@ -4,20 +4,17 @@ import entity.Book;
 import entity.City;
 import entity.Driver;
 import form.BasicInformationForm;
-import form.CountInMonthForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import service.AnalyticService;
 import service.BookService;
 import service.CityService;
 import service.DriverService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -110,13 +107,20 @@ public class DriverPageController {
     public String analitycs(ModelMap model) {
         Driver driver = getPrincipal();
         List<Book> books = bookService.getAllBooksByDriverId(driver.getId());
-        List<CountInMonthForm> countInMonthForms = analyticService.findAllInMonthByDriverId(driver.getId(), 4);
+        ArrayList<Integer> countInMonthForms = analyticService.findAllInMonthByDriverId(driver.getId(), "2016-04");
         BasicInformationForm basicInformationForm = analyticService.findBasicInfoByDriver_Id(driver.getId());
         model.addAttribute("basicDataSet", basicInformationForm);
         model.addAttribute("dataSet", countInMonthForms);
         model.addAttribute("user", driver);
         model.addAttribute("books", books);
         return "/driver/analitycs";
+    }
+
+    @RequestMapping(value = "/cabinet/statistic/analitycs/countinmonth", method = RequestMethod.GET)
+    public @ResponseBody ArrayList<Integer> countInMonth(@RequestParam(value = "date") String date) {
+        Driver driver = getPrincipal();
+        ArrayList<Integer> countInMonthForms = analyticService.findAllInMonthByDriverId(driver.getId(), date);
+        return countInMonthForms;
     }
 
     @RequestMapping(value = "/cabinet/profile", method = RequestMethod.POST)

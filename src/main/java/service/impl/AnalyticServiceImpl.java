@@ -1,7 +1,7 @@
 package service.impl;
 
 import form.BasicInformationForm;
-import form.CountInMonthForm;
+import form.CountInYearForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.BookRepository;
@@ -9,6 +9,7 @@ import repository.DriverRepository;
 import repository.impl.AnalyticRepositoryImpl;
 import service.AnalyticService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,8 +27,16 @@ public class AnalyticServiceImpl implements AnalyticService {
     DriverRepository driverRepository;
 
     @Override
-    public List<CountInMonthForm> findAllInMonthByDriverId(int driverId, int month) {
-        return analyticRepositoryImpl.findAllInMonthByDriver_Id(driverId, month);
+    public ArrayList<Integer> findAllInMonthByDriverId(int driverId, String date) {
+        String[] yearMonth = date.split("-");
+        Integer year = Integer.parseInt(yearMonth[0]);
+        Integer month = Integer.parseInt(yearMonth[1]);
+        return analyticRepositoryImpl.findAllInMonthByDriver_Id(driverId, month, year);
+    }
+
+    @Override
+    public List<CountInYearForm> findAllInYearByDriverId(int driverId, int year) {
+        return analyticRepositoryImpl.findAllInYearByDriver_Id(driverId, year);
     }
 
     @Override
