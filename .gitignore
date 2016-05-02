@@ -1,3 +1,8 @@
+<<<<<<< 32bbabd5fd4ff390a19aa967df7e18f3ad21a4be
+=======
+# Created by .ignore support plugin (hsz.mobi)
+### Java template
+>>>>>>> Init
 *.class
 
 # Mobile Tools for Java (J2ME)
@@ -8,5 +13,16 @@
 *.war
 *.ear
 
+<<<<<<< 32bbabd5fd4ff390a19aa967df7e18f3ad21a4be
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+=======
+#Directories
+/out
+/target
+untitled3.iml
+.idea
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+>>>>>>> Init
