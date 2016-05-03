@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import service.CityService;
+import service.DriverService;
+import service.PassengerService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +26,10 @@ import java.util.List;
 public class MainPageController {
     @Autowired
     CityService cityService;
+    @Autowired
+    PassengerService passengerService;
+    @Autowired
+    DriverService driverService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String mainPage(ModelMap model, @RequestParam(required = false, value = "city", defaultValue = "Москва") String city) {
@@ -75,5 +81,85 @@ public class MainPageController {
             return "redirect:/driver";
         }
         return "/cabinet/login";
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String registerGET(ModelMap model) {
+        return "/cabinet/register";
+    }
+
+    @RequestMapping(value = "/register/client", method = RequestMethod.GET)
+    public String registerClientGET(ModelMap model) {
+        List cities = cityService.getAllCities();
+        model.addAttribute("cities", cities);
+        return "/cabinet/register_client";
+    }
+
+    @RequestMapping(value = "/register/client", method = RequestMethod.POST)
+    public String registerClientPOST(ModelMap model,
+                               @RequestParam(value = "username") String username,
+                               @RequestParam(value = "city") int cityId,
+                               @RequestParam(value = "phone") String phone,
+                               @RequestParam(value = "password") String password,
+                               @RequestParam(value = "confirmPassword") String confirmPassword) {
+        boolean isError=false;
+        String errorMessage = "";
+        if(passengerService.getPassengerByUsername(username) != null){
+            isError=true;
+            errorMessage += "Логин уже используется ";
+        }
+        if(!password.equals(confirmPassword)){
+            isError=true;
+            errorMessage += "Порторный ввод пароля неверен";
+        }
+        if(isError){
+            List cities = cityService.getAllCities();
+            model.addAttribute("error", errorMessage);
+            model.addAttribute("cities", cities);
+            model.addAttribute("username", username);
+            model.addAttribute("cityError", cityId);
+            model.addAttribute("phone", phone);
+            return "/cabinet/register_client";
+        }
+        passengerService.addNewPassenger(username, cityId, phone, password);
+        return "redirect:/login";
+    }
+
+    @RequestMapping(value = "/register/driver", method = RequestMethod.GET)
+    public String registerDriverGET(ModelMap model) {
+        List cities = cityService.getAllCities();
+        model.addAttribute("cities", cities);
+        return "/cabinet/register_driver";
+    }
+
+    @RequestMapping(value = "/register/driver", method = RequestMethod.POST)
+    public String registerDriverPOST(ModelMap model,
+                               @RequestParam(value = "username") String username,
+                               @RequestParam(value = "city") int cityId,
+                               @RequestParam(value = "phone") String phone,
+                               @RequestParam(value = "password") String password,
+                               @RequestParam(value = "confirmPassword") String confirmPassword) {
+        boolean isError=false;
+        String errorMessage = "";
+        if(passengerService.getPassengerByUsername(username) != null){
+            isError=true;
+            errorMessage += "Логин уже используется ";
+        }
+        if(!password.equals(confirmPassword)){
+            isError=true;
+            errorMessage += "Порторный ввод пароля неверен";
+        }
+        if(isError){
+            List cities = cityService.getAllCities();
+            model.addAttribute("error", errorMessage);
+            model.addAttribute("cities", cities);
+            model.addAttribute("username", username);
+            model.addAttribute("cityError", cityId);
+            model.addAttribute("phone", phone);
+            return "/cabinet/register_driver";
+        }
+        List cities = cityService.getAllCities();
+        model.addAttribute("cities", cities);
+        return "redirect:/login";
     }
 }

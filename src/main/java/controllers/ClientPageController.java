@@ -14,7 +14,6 @@ import service.BookService;
 import service.CityService;
 import service.PassengerService;
 
-import java.sql.Date;
 import java.util.List;
 
 /**
@@ -43,46 +42,6 @@ public class ClientPageController {
         model.addAttribute("user", passenger);
         model.addAttribute("cities", cities);
         return "/client/cabinet";
-    }
-
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String registerGET(ModelMap model) {
-        List cities = cityService.getAllCities();
-        model.addAttribute("cities", cities);
-        return "/cabinet/register";
-    }
-
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String registerPOST(ModelMap model,
-                               @RequestParam(value = "username") String username,
-                               @RequestParam(value = "city") int cityId,
-                               @RequestParam(value = "phone") String phone,
-                               @RequestParam(value = "password") String password,
-                               @RequestParam(value = "confirmPassword") String confirmPassword) {
-        boolean isError=false;
-        String errorMessage = "";
-        if(passengerService.getPassengerByUsername(username) != null){
-            isError=true;
-            errorMessage += "Логин уже используется ";
-        }
-        if(!password.equals(confirmPassword)){
-            isError=true;
-            errorMessage += " Порторный ввод пароля неверен";
-        }
-        if(isError){
-            List cities = cityService.getAllCities();
-            model.addAttribute("error", errorMessage);
-            model.addAttribute("cities", cities);
-            model.addAttribute("username", username);
-            model.addAttribute("cityError", cityId);
-            model.addAttribute("phone", phone);
-            return "/cabinet/register";
-        }
-        List cities = cityService.getAllCities();
-        Passenger passenger = getPrincipal();
-        model.addAttribute("user", passenger);
-        model.addAttribute("cities", cities);
-        return "redirect:/client/cabinet";
     }
 
     @RequestMapping(value = "/cabinet", method = RequestMethod.POST)
@@ -132,13 +91,11 @@ public class ClientPageController {
                               @RequestParam(value = "street") String street,
                               @RequestParam(value = "house") String house,
                               @RequestParam(value = "flat") int flat,
-                              @RequestParam(value = "sex") int sex,
-                              @RequestParam(value = "birth") Date birth,
-                              @RequestParam(value = "email") String email) {
+                              @RequestParam(value = "sex") int sex) {
 
-        City city = cityService.getCityById(Integer.parseInt(cityId.substring(1)));
+        City city = cityService.getCityById(Integer.parseInt(cityId.charAt(1)+""));
         Passenger passenger = getPrincipal();
-        //passengerService.update(passenger.getId(), name, street, house, flat, sex, birth, email, city);
+        passengerService.update(passenger, name, street, house, flat, sex, city);
         return "redirect:/client/cabinet/profile";
     }
 

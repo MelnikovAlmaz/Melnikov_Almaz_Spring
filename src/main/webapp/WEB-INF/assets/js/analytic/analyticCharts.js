@@ -1,5 +1,4 @@
 function renderMonthChart() {
-
     $.ajax({
         url: '/driver/cabinet/statistic/analitycs/countinmonth',
         data: {"date": $("#monthAnalytic").val()},
@@ -44,23 +43,30 @@ function renderMonthChart() {
     });
 }
 function renderYearChart() {
-    var yearData = {
-        labels: ["January", "February", "March", "April", "May", "June", "July"],
-        datasets: [
-            {
-                label: "Количество заказов в месяц",
-                backgroundColor: "rgba(255,99,132,0.2)",
-                borderColor: "rgba(255,99,132,1)",
-                borderWidth: 1,
-                hoverBackgroundColor: "rgba(255,99,132,0.4)",
-                hoverBorderColor: "rgba(255,99,132,1)",
-                data: [65, 59, 80, 81, 56, 55, 40]
-            }
-        ]
-    };
-    var yearChartElem = document.getElementById("yearChart");
-    var yearChart = new Chart(yearChartElem, {
-        type: 'bar',
-        data: yearData
+    $.ajax({
+        url: '/driver/cabinet/statistic/analitycs/countinyear',
+        data: {"date": $("#yearAnalytic").val()},
+        dataType: "json",
+        success: function (data, textStatus) {
+            var yearData = {
+                labels: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                datasets: [
+                    {
+                        label: "Количество заказов в месяц",
+                        backgroundColor: "rgba(255,99,132,0.2)",
+                        borderColor: "rgba(255,99,132,1)",
+                        borderWidth: 1,
+                        hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                        hoverBorderColor: "rgba(255,99,132,1)",
+                        data: data
+                    }
+                ]
+            };
+            var yearChartElem = document.getElementById("yearChart");
+            var yearChart = new Chart(yearChartElem, {
+                type: 'bar',
+                data: yearData
+            });
+        }
     });
 }

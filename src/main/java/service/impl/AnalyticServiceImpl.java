@@ -1,7 +1,6 @@
 package service.impl;
 
 import form.BasicInformationForm;
-import form.CountInYearForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import repository.BookRepository;
@@ -35,7 +34,7 @@ public class AnalyticServiceImpl implements AnalyticService {
     }
 
     @Override
-    public List<CountInYearForm> findAllInYearByDriverId(int driverId, int year) {
+    public ArrayList<Integer> findAllInYearByDriverId(int driverId, int year) {
         return analyticRepositoryImpl.findAllInYearByDriver_Id(driverId, year);
     }
 

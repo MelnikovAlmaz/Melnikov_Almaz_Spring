@@ -86,20 +86,6 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="control-group ">
-                                    <label class="control-label" for="">День рождения</label>
-                                    <div class="controls">
-                                        <input name="birth" id="birth" value="${user.birth}" class="input-xlarge"
-                                               type="date"/>
-                                    </div>
-                                </div>
-                                <div class="control-group ">
-                                    <label class="control-label" for="">Электронный адрес</label>
-                                    <div class="controls">
-                                        <input name="email" id="email" value="${user.email}" class="input-xlarge"
-                                               type="text"/>
-                                    </div>
-                                </div>
                                 <div class="control-group phone status-1">
                                     <label class="control-label">Номер телефона</label>
                                     <div class="controls">

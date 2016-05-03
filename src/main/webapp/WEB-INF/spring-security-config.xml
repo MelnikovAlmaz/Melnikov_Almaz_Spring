@@ -13,6 +13,7 @@
         <intercept-url pattern="/login" access="isAnonymous()"/>
         <intercept-url pattern="/logout" access="hasAnyRole('ROLE_PASSENGER', 'ROLE_DRIVER')"/>
         <intercept-url pattern="/register" access="isAnonymous()"/>
+        <intercept-url pattern="/register/**" access="isAnonymous()"/>
         <intercept-url pattern="/cabinet" access="hasAnyRole('ROLE_PASSENGER', 'ROLE_DRIVER')"/>
         <intercept-url pattern="/client/**" access="hasRole('ROLE_PASSENGER')"/>
         <intercept-url pattern="/driver/**" access="hasRole('ROLE_DRIVER')"/>

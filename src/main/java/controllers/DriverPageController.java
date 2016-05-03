@@ -119,8 +119,15 @@ public class DriverPageController {
     @RequestMapping(value = "/cabinet/statistic/analitycs/countinmonth", method = RequestMethod.GET)
     public @ResponseBody ArrayList<Integer> countInMonth(@RequestParam(value = "date") String date) {
         Driver driver = getPrincipal();
-        ArrayList<Integer> countInMonthForms = analyticService.findAllInMonthByDriverId(driver.getId(), date);
-        return countInMonthForms;
+        ArrayList<Integer> countInMonth = analyticService.findAllInMonthByDriverId(driver.getId(), date);
+        return countInMonth;
+    }
+
+    @RequestMapping(value = "/cabinet/statistic/analitycs/countinyear", method = RequestMethod.GET)
+    public @ResponseBody ArrayList<Integer> countInYear(@RequestParam(value = "date") int date) {
+        Driver driver = getPrincipal();
+        ArrayList<Integer> countInYear = analyticService.findAllInYearByDriverId(driver.getId(), date);
+        return countInYear;
     }
 
     @RequestMapping(value = "/cabinet/profile", method = RequestMethod.POST)

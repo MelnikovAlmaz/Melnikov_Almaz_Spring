@@ -1,8 +1,6 @@
 package repository.impl;
 
 import form.BasicInformationForm;
-import form.CountInMonthForm;
-import form.CountInYearForm;
 import org.springframework.stereotype.Repository;
 import utils.DbDriverSingleton;
 
@@ -19,7 +17,7 @@ import java.util.List;
 public class AnalyticRepositoryImpl {
     public ArrayList<Integer> findAllInMonthByDriver_Id(int driverId, int month, int year) {
         ArrayList<Integer> data = new ArrayList<>();
-        for (int i = 0; i < 32; i++) {
+        for (int i = 0; i < 31; i++) {
             data.add(0);
         }
         try {
@@ -30,7 +28,7 @@ public class AnalyticRepositoryImpl {
             stmt.setInt(3, year);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                data.set(rs.getInt("date"), rs.getInt("count"));
+                data.set(rs.getInt("date") - 1, rs.getInt("count"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,25 +37,25 @@ public class AnalyticRepositoryImpl {
         return data;
     }
 
-    public List<CountInYearForm> findAllInYearByDriver_Id(int driverId, int year) {
-        ArrayList<CountInYearForm> countInYearForms = new ArrayList<>();
+    public ArrayList<Integer> findAllInYearByDriver_Id(int driverId, int year) {
+        ArrayList<Integer> data = new ArrayList<>();
+        for (int i = 0; i < 11; i++) {
+            data.add(0);
+        }
         try {
             Connection dbConnection = DbDriverSingleton.getDbConnection();
-            PreparedStatement stmt = dbConnection.prepareStatement("SELECT COUNT(*) as count, date_part('month', b.date) as month FROM book as b  WHERE b.driver = ? AND date_part('year', b.date) = ? GROUP BY date_part('month', b.date) ORDER BY date_part('month', b.date)");
+            PreparedStatement stmt = dbConnection.prepareStatement("SELECT COUNT(*) as count, date_part('month',b.date) as date FROM book as b  WHERE b.driver = ? AND date_part('year', b.date) = ? GROUP BY date_part('month',b.date) ORDER BY date_part('month',b.date)");
             stmt.setInt(1, driverId);
             stmt.setInt(2, year);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                CountInYearForm countInYearForm = new CountInYearForm();
-                countInYearForm.setCount(rs.getInt("count"));
-                countInYearForm.setMonth(rs.getInt("month"));
-                countInYearForms.add(countInYearForm);
+                data.set(rs.getInt("date")-1, rs.getInt("count"));
             }
         } catch (Exception e) {
             e.printStackTrace();
             System.err.println(e.getClass().getName() + ": " + e.getMessage());
         }
-        return countInYearForms;
+        return data;
     }
 
     public BasicInformationForm findBasicInfoByDriver_Id(int driverId) {
