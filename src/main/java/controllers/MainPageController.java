@@ -1,5 +1,7 @@
 package controllers;
 
+import entity.Car;
+import entity.Driver;
 import entity.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import service.CityService;
 import service.DriverService;
 import service.PassengerService;
+import service.impl.CarServiceImpl;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +33,8 @@ public class MainPageController {
     PassengerService passengerService;
     @Autowired
     DriverService driverService;
+    @Autowired
+    CarServiceImpl carService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String mainPage(ModelMap model, @RequestParam(required = false, value = "city", defaultValue = "Москва") String city) {
@@ -138,10 +143,15 @@ public class MainPageController {
                                @RequestParam(value = "city") int cityId,
                                @RequestParam(value = "phone") String phone,
                                @RequestParam(value = "password") String password,
-                               @RequestParam(value = "confirmPassword") String confirmPassword) {
+                               @RequestParam(value = "confirmPassword") String confirmPassword,
+                               @RequestParam(value = "carNumber") String carNumber,
+                               @RequestParam(value = "carModel") String carModel,
+                               @RequestParam(value = "carRegion") int carRegion,
+                               @RequestParam(value = "carColor") String carColor)
+    {
         boolean isError=false;
         String errorMessage = "";
-        if(passengerService.getPassengerByUsername(username) != null){
+        if(driverService.getDriverByUsername(username) != null){
             isError=true;
             errorMessage += "Логин уже используется ";
         }
@@ -158,8 +168,8 @@ public class MainPageController {
             model.addAttribute("phone", phone);
             return "/cabinet/register_driver";
         }
-        List cities = cityService.getAllCities();
-        model.addAttribute("cities", cities);
+        Car car = carService.addNewCar(carNumber, carModel, carRegion, carColor);
+        Driver driver = driverService.addNewDriver(username, cityId, phone, password, car);
         return "redirect:/login";
     }
 }

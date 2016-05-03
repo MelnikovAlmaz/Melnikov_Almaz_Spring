@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="row-fluid">
-        <div class="span6 panel panel-default ">
+        <div class="span6 panel panel-primary ">
             <div class="panel-heading">Автомобиль</div>
             <div class="panel-body">
                 <div class="controls">

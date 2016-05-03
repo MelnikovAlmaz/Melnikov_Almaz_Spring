@@ -141,7 +141,7 @@ public class DriverPageController {
 
         City city = cityService.getCityById(Integer.parseInt(cityId.substring(1)));
         Driver driver = getPrincipal();
-        //driverService.update(driver.getId(), name, street, house, flat, sex, birth, email, city);
+        driverService.update(driver, name, street, house, flat, sex, city);
         return "redirect:/driver/cabinet/profile";
     }
 
