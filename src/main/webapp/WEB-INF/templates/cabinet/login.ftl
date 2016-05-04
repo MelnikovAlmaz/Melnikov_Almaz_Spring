@@ -41,6 +41,7 @@
                                                                                     id="password"
                                                                                     type="password"/></div>
                             </div>
+                            <input type="checkbox" name="_spring_security_remember_me">Запомнить меня
                             <div class="form-actions">
                                 <button class="btn-main-style btn btn-primary" type="submit" name="yt0">
                                     Войти в кабинет

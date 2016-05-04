@@ -9,4 +9,5 @@
     <import resource="spring-exel-views.xml"/>
     <import resource="database-config.xml"/>
     <import resource="spring-security-config.xml"/>
+    <import resource="log4j-config.xml"/>
 </beans>

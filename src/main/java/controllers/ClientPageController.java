@@ -2,18 +2,23 @@ package controllers;
 
 import entity.City;
 import entity.Passenger;
+import form.FeedbackForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import service.BookService;
 import service.CityService;
+import service.FeedBackService;
 import service.PassengerService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -28,6 +33,8 @@ public class ClientPageController {
     PassengerService passengerService;
     @Autowired
     BookService bookService;
+    @Autowired
+    FeedBackService feedBackService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String mainPage(ModelMap model) {
@@ -105,12 +112,18 @@ public class ClientPageController {
         Passenger passenger = getPrincipal();
         model.addAttribute("user", passenger);
         model.addAttribute("cities", cities);
+        model.addAttribute("feedBackForm", new FeedbackForm());
         return "/client/feedback";
     }
 
+
     @RequestMapping(value = "/cabinet/feedback", method = RequestMethod.POST)
-    public String feedbackPOST(ModelMap model) {
-        return "redirect:/client/cabinet/feedback";
+    public String feedbackPOST(@ModelAttribute("feedBackForm")@Valid FeedbackForm form, BindingResult result) {
+        if (result.hasErrors()) {
+            return "redirect:/cabinet";
+        }
+        feedBackService.addNewFeedBack(form);
+        return "redirect:/cabinet";
     }
 
     private Passenger getPrincipal(){
@@ -121,6 +134,6 @@ public class ClientPageController {
     public ModelAndView getExcel() {
         Passenger passenger = getPrincipal();
         List bookList = bookService.getAllBooksByPassengerId(passenger.getId());
-        return new ModelAndView("BookListExel", "bookList", bookList);
+        return new ModelAndView("BookListPDF", "bookList", bookList);
     }
 }

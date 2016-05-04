@@ -4,16 +4,16 @@ import entity.Book;
 import entity.City;
 import entity.Driver;
 import form.BasicInformationForm;
+import form.FeedbackForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import service.AnalyticService;
-import service.BookService;
-import service.CityService;
-import service.DriverService;
+import service.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +31,8 @@ public class DriverPageController {
     BookService bookService;
     @Autowired
     AnalyticService analyticService;
+    @Autowired
+    FeedBackService feedBackService;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public String mainPage(ModelMap model) {
@@ -151,12 +153,17 @@ public class DriverPageController {
         Driver driver = getPrincipal();
         model.addAttribute("user", driver);
         model.addAttribute("cities", cities);
+        model.addAttribute("feedBackForm", new FeedbackForm());
         return "/driver/feedback";
     }
 
     @RequestMapping(value = "/cabinet/feedback", method = RequestMethod.POST)
-    public String feedbackPOST(ModelMap model) {
-        return "redirect:/driver/cabinet/feedback";
+    public String feedbackPOST(@ModelAttribute("feedBackForm")@Valid FeedbackForm form, BindingResult result) {
+        if (result.hasErrors()) {
+            return "redirect:/cabinet";
+        }
+        feedBackService.addNewFeedBack(form);
+        return "redirect:/cabinet";
     }
 
     private Driver getPrincipal(){

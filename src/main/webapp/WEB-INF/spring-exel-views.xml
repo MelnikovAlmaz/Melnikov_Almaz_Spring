@@ -7,4 +7,7 @@
     <bean id="BookListExel"
           class="utils.BookListExelView">
     </bean>
+    <bean id="BookListPDF"
+          class="utils.BookListPDFView">
+    </bean>
 </beans>

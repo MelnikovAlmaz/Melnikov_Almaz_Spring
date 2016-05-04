@@ -23,8 +23,8 @@
                 default-target-url="/cabinet"
                 authentication-failure-url="/login?error=1"
                 username-parameter="username"
-                password-parameter="password"/>
-
+                password-parameter="password"
+        />
         <http-basic/>
         <headers/>
         <csrf/>

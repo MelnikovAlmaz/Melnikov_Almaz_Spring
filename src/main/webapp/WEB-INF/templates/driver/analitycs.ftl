@@ -59,7 +59,7 @@
                                             <input type="number" min="2000" name="yearAnalytic" id="yearAnalytic" style="height: 30px;">
                                         </div>
                                         <div class="span4">
-                                            <button class="btn btn-default" id="yearBtn">Обновить</button>
+                                            <button class="btn btn-default" id="yearBtn" onclick="renderYearChart()">Обновить</button>
                                         </div>
                                         <div>
                                             <canvas id="yearChart"></canvas>
