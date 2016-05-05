@@ -1,5 +1,6 @@
 package controllers;
 
+import entity.BookTemplate;
 import entity.City;
 import entity.Passenger;
 import form.FeedbackForm;
@@ -8,15 +9,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import service.BookService;
-import service.CityService;
-import service.FeedBackService;
-import service.PassengerService;
+import service.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -33,6 +28,8 @@ public class ClientPageController {
     PassengerService passengerService;
     @Autowired
     BookService bookService;
+    @Autowired
+    BookTemplateService bookTemplateService;
     @Autowired
     FeedBackService feedBackService;
 
@@ -80,6 +77,41 @@ public class ClientPageController {
     @RequestMapping(value = "/cabinet/orders", method = RequestMethod.POST)
     public String ordersPOST(ModelMap model) {
         return "/client/orders";
+    }
+
+    @RequestMapping(value = "/cabinet/orders/totemplate/{id}", method = RequestMethod.GET)
+    public String templatesGET(ModelMap model,  @PathVariable Integer id) {
+        Passenger passenger = getPrincipal();
+        bookTemplateService.addNewBookTemplateFromBook(id, passenger);
+        return "redirect:/client/cabinet/orders";
+    }
+
+    @RequestMapping(value = "/cabinet/templates", method = RequestMethod.GET)
+    public String templatesGET(ModelMap model) {
+        Passenger passenger = getPrincipal();
+        List templates = bookTemplateService.getAllBookTemplatesByPassengerId(passenger.getId());
+        model.addAttribute("templates", templates);
+        model.addAttribute("user", passenger);
+        return "/client/templates";
+    }
+
+    @RequestMapping(value = "/cabinet/templates/tobook/{id}", method = RequestMethod.GET)
+    public String templatesToBookGET(ModelMap model, @PathVariable Integer id) {
+        List cities = cityService.getAllCities();
+        Passenger passenger = getPrincipal();
+        BookTemplate bookTemplate = bookTemplateService.getBookTemplateById(id);
+        if(bookTemplate.getPassenger().getId() != passenger.getId()){
+            return "redirect:/client/cabinet/templates";
+        }
+        model.addAttribute("bookTemplate", bookTemplate);
+        model.addAttribute("user", passenger);
+        model.addAttribute("cities", cities);
+        return "/client/cabinet";
+    }
+
+    @RequestMapping(value = "/cabinet/templates", method = RequestMethod.POST)
+    public String templatesPOST(ModelMap model) {
+        return "/client/templates";
     }
 
     @RequestMapping(value = "/cabinet/profile", method = RequestMethod.GET)
@@ -131,7 +163,7 @@ public class ClientPageController {
         return passenger;
     }
     @RequestMapping(value = "/cabinet/export", method = RequestMethod.GET)
-    public ModelAndView getExcel() {
+    public ModelAndView getPDF() {
         Passenger passenger = getPrincipal();
         List bookList = bookService.getAllBooksByPassengerId(passenger.getId());
         return new ModelAndView("BookListPDF", "bookList", bookList);

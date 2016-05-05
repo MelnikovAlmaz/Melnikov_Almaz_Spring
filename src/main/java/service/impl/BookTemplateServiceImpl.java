@@ -1,11 +1,13 @@
 package service.impl;
 
+import entity.Book;
 import entity.BookTemplate;
 import entity.City;
 import entity.Passenger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import repository.BookRepository;
 import repository.BookTemplateRepository;
 import repository.DriverRepository;
 import repository.impl.AnalyticRepositoryImpl;
@@ -20,6 +22,8 @@ import java.util.List;
 public class BookTemplateServiceImpl implements BookTemplateService {
     @Autowired
     BookTemplateRepository bookTemplateRepository;
+    @Autowired
+    BookRepository bookRepository;
 
     @Autowired
     AnalyticRepositoryImpl analyticRepositoryImpl;
@@ -59,5 +63,24 @@ public class BookTemplateServiceImpl implements BookTemplateService {
         book.setFromplace(fromPlace);
         book.setPassenger(passenger);
         bookTemplateRepository.save(book);
+    }
+
+    @Override
+    public void addNewBookTemplateFromBook(Integer bookId, Passenger passenger) {
+        Book book = bookRepository.findOneById(bookId);
+        if (book.getPassenger().getId() != passenger.getId()) return;
+        BookTemplate bookTemplate = new BookTemplate();
+        bookTemplate.setName(book.getName());
+        bookTemplate.setPhone(book.getPhone());
+        bookTemplate.setCity(book.getCity());
+        bookTemplate.setTostreet(book.getTostreet());
+        bookTemplate.setTohouse(book.getTohouse());
+        bookTemplate.setFromstreet(book.getFromstreet());
+        bookTemplate.setFromhouse(book.getFromhouse());
+        bookTemplate.setFromblock(book.getFromblock());
+        bookTemplate.setFromplace(book.getFromplace());
+        bookTemplate.setPassenger(book.getPassenger());
+        bookTemplateRepository.save(bookTemplate);
+
     }
 }

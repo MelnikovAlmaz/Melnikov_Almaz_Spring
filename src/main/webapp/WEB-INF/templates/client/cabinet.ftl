@@ -31,10 +31,8 @@
                         <div id="neworder">
                             <div class="neworder-tab tabs-above" id="neworder-tab">
                                 <ul id="yw9" class="nav nav-pills">
-                                    <li class="active"><a data-toggle="tab" href="#neworder-tab_tab_1"><i
-                                            class="icon-road"></i> По адресу</a></li>
-                                    <li><a data-toggle="tab" href="#neworder-tab_tab_2"><i class="icon-tags"></i> По
-                                        шаблону</a></li>
+                                    <li class="active"><a data-toggle="tab"> По адресу</a></li>
+                                    <li><a data-toggle="tab" href="/client/cabinet/templates">По шаблону</a></li>
                                 </ul>
                                 <div class="tab-content">
                                     <div id="neworder-tab_tab_1" class="tab-pane fade active in">
@@ -45,7 +43,8 @@
                                                 <div class="control-group ">
                                                     <label class="control-label" for="name">Название</label>
                                                     <div class="controls">
-                                                        <input name="name" id="name" type="text"/>
+                                                        <input name="name" id="name" type="text"
+                                                        <#if bookTemplate??>value="${bookTemplate.name}" </#if>/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -54,7 +53,12 @@
                                                 <div class='controls'>
                                                     <div class='input-append btn-group'>
                                                         <input data-provide="typeahead" style="width: 173px;"
-                                                               type="tel" name="phone" id="phone" value="${user.phone}"/>
+                                                               type="tel" name="phone" id="phone"
+                                                               <#if bookTemplate??>
+                                                               value="${bookTemplate.phone}"
+                                                               <#else>
+                                                               value="${user.phone}"
+                                                               </#if>/>
                                                     </div>
                                                     <br/>
                                                 </div>
@@ -75,13 +79,17 @@
                                             <div class="control-group ">
                                                 <label class="control-label">Объект/Улица</label>
                                                 <div class="controls">
-                                                    <input name="fromStreet" type="text" value="${user.street}"/>
+                                                    <input name="fromStreet" type="text"
+                                                           <#if bookTemplate??>value="${bookTemplate.fromstreet}"
+                                                           <#else> value="${user.street}"</#if>/>
                                                 </div>
                                             </div>
                                             <div class="control-group ">
                                                 <label class="control-label" for="">Дом</label>
                                                 <div class="controls">
-                                                    <input id="fromHouse" name="fromHouse" maxlength="15" type="text" value="${user.house}"/>
+                                                    <input id="fromHouse" name="fromHouse" maxlength="15" type="text"
+                                                           <#if bookTemplate??>value="${bookTemplate.fromhouse}"
+                                                           <#else> value="${user.house}"</#if>/>/>
                                                 </div>
                                             </div>
                                             <div class="control-group ">
@@ -93,7 +101,8 @@
                                             <div class="control-group ">
                                                 <label class="control-label" for="">Где встречать</label>
                                                 <div class="controls">
-                                                    <input id="fromPlace" name="fromPlace" type="text"/>
+                                                    <input id="fromPlace" name="fromPlace" type="text"
+                                                           <#if bookTemplate??>value="${bookTemplate.fromplace}"</#if>/>
                                                 </div>
                                             </div>
                                             <div id="mainPoint">
@@ -104,13 +113,15 @@
                                                     <div class="control-group ">
                                                         <label class="control-label" for="">Объект/Улица</label>
                                                         <div class="controls">
-                                                            <input name="toStreet" class="toStreet" type="text"/>
+                                                            <input name="toStreet" class="toStreet" type="text"
+                                                                   <#if bookTemplate??>value="${bookTemplate.tostreet}"</#if>/>
                                                         </div>
                                                     </div>
                                                     <div class="control-group ">
                                                         <label class="control-label" for="">Дом</label>
                                                         <div class="controls">
-                                                            <input name="toHouse" class="toHouse" maxlength="15" id="" type="text"/>
+                                                            <input name="toHouse" class="toHouse" maxlength="15" id="" type="text"
+                                                                   <#if bookTemplate??>value="${bookTemplate.tohouse}"</#if>/>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -19,4 +19,6 @@ public interface BookTemplateService {
                     String fromStreet, String fromHouse,
                     String fromPlace, City city,
                     Passenger passenger, String toStreet);
+
+    void addNewBookTemplateFromBook(Integer bookId, Passenger passenger);
 }

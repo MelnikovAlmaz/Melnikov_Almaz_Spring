@@ -16,8 +16,8 @@
             <div class="sidebar-nav">
                 <ul id="yw10" class="nav nav-pills nav-stacked">
                     <li><a href="/client/cabinet">Новый заказ</a></li>
-                    <li class="active"><a href="/client/cabinet/orders"> Заказы</a></li>
-                    <li><a href="/client/cabinet/templates"> Шаблоны</a></li>
+                    <li><a href="/client/cabinet/orders"> Заказы</a></li>
+                    <li class="active"><a href="/client/cabinet/templates"> Шаблоны</a></li>
                     <li><a href="/client/cabinet/profile"> Профиль</a></li>
                     <li><a href="/client/cabinet/feedback"> Обратная связь</a></li>
                 </ul>
@@ -29,34 +29,30 @@
                 <div class="span12">
                     <div id="yw1"></div>
                     <div id="content">
-                        <h2>Заказы</h2>
+                        <h2>Шаблоны</h2>
                         <div id="currentDataset" class="grid-view"></div>
                         <div class="row-fluid">
                             <div class="span9">
-                                <span class="label" style="margin-bottom: 10px">История отображается за последние 3 месяца</span>
                                 <table class="table table-striped">
                                     <tr>
                                         <th>Название</th>
                                         <th>Город</th>
                                         <th>Откуда</th>
                                         <th>Куда</th>
-                                        <th>Стоимость</th>
+                                        <th></th>
                                         <th></th>
                                     </tr>
-                                <#list books as book>
+                                <#list templates as template>
                                     <tr>
-                                        <td>${book.name}</td>
-                                        <td>${book.city.name}</td>
-                                        <td>${book.fromstreet} ${book.fromhouse}</td>
-                                        <td>${book.tostreet} ${book.tohouse}</td>
-                                        <td>${book.cost}</td>
-                                        <td><a href="/client/cabinet/orders/totemplate/${book.id}"><button class="btn btn-success">Создать шаблон</button></a></td>
+                                        <td>${template.name}</td>
+                                        <td>${template.city.name}</td>
+                                        <td>${template.fromstreet} ${template.fromhouse}</td>
+                                        <td>${template.tostreet} ${template.tohouse}</td>
+                                        <td><a href="/client/cabinet/templates/tobook/${template.id}"><button class="btn btn-success">Заказать</button></a></td>
+                                        <td><a href="/client/cabinet/templates/delete/${template.id}"><button class="btn btn-danger">Удалить</button></a></td>
                                     </tr>
                                 </#list>
                                 </table>
-                            </div>
-                            <div class="span3 text-right">
-                                <a class="btn btn-success" href="/client/cabinet/export">Выгрузить реестр поездок</a>
                             </div>
                         </div>
                     </div>
