@@ -89,7 +89,7 @@
                                                 <div class="controls">
                                                     <input id="fromHouse" name="fromHouse" maxlength="15" type="text"
                                                            <#if bookTemplate??>value="${bookTemplate.fromhouse}"
-                                                           <#else> value="${user.house}"</#if>/>/>
+                                                           <#else> value="${user.house}"</#if>/>
                                                 </div>
                                             </div>
                                             <div class="control-group ">

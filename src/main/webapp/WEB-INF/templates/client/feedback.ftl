@@ -101,6 +101,8 @@
         <p>&copy;2003 - 2016 Служба заказа такси «Алмаз»</p>
     </footer>
 </div>
+<script src="/js/jquery-2.2.3.min.js"></script>
+<script src="/js/cabinet/feedback.js"></script>
 </body>
 </html>
 

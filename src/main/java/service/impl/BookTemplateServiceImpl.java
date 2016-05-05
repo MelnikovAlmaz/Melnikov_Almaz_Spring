@@ -81,6 +81,11 @@ public class BookTemplateServiceImpl implements BookTemplateService {
         bookTemplate.setFromplace(book.getFromplace());
         bookTemplate.setPassenger(book.getPassenger());
         bookTemplateRepository.save(bookTemplate);
+    }
 
+    @Override
+    public void deleteBookTemplateById(Integer id) {
+        BookTemplate bookTemplate = bookTemplateRepository.findOneById(id);
+        bookTemplateRepository.delete(bookTemplate);
     }
 }

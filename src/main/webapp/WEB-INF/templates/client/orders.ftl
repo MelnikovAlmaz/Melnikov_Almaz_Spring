@@ -30,11 +30,10 @@
                     <div id="yw1"></div>
                     <div id="content">
                         <h2>Заказы</h2>
-                        <div id="currentDataset" class="grid-view"></div>
+                        <input id="bookName" type="text" placeholder="Поиск по названию">
                         <div class="row-fluid">
                             <div class="span9">
-                                <span class="label" style="margin-bottom: 10px">История отображается за последние 3 месяца</span>
-                                <table class="table table-striped">
+                                <table id="bookTable" class="table table-striped">
                                     <tr>
                                         <th>Название</th>
                                         <th>Город</th>

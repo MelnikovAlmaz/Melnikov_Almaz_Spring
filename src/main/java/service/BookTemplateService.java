@@ -21,4 +21,5 @@ public interface BookTemplateService {
                     Passenger passenger, String toStreet);
 
     void addNewBookTemplateFromBook(Integer bookId, Passenger passenger);
+    void deleteBookTemplateById(Integer id);
 }

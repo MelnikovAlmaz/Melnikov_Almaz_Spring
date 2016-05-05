@@ -109,6 +109,18 @@ public class ClientPageController {
         return "/client/cabinet";
     }
 
+    @RequestMapping(value = "/cabinet/templates/delete/{id}", method = RequestMethod.GET)
+    public String templatesDeleteGET(ModelMap model, @PathVariable Integer id) {
+        List cities = cityService.getAllCities();
+        Passenger passenger = getPrincipal();
+        BookTemplate bookTemplate = bookTemplateService.getBookTemplateById(id);
+        if(bookTemplate.getPassenger().getId() != passenger.getId()){
+            return "redirect:/client/cabinet/templates";
+        }
+        bookTemplateService.deleteBookTemplateById(id);
+        return "redirect:/client/cabinet/templates";
+    }
+
     @RequestMapping(value = "/cabinet/templates", method = RequestMethod.POST)
     public String templatesPOST(ModelMap model) {
         return "/client/templates";
