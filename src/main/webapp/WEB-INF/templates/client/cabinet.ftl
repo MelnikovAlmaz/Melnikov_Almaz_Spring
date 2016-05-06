@@ -1,8 +1,11 @@
+<#assign sf=JspTaglibs["http://www.springframework.org/tags/form"]>
+<#assign sec=JspTaglibs["http://www.springframework.org/security/tags"]>
+<#assign c =JspTaglibs["http://java.sun.com/jsp/jstl/core"]>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <#include "../cabinet/links.ftl">
+<#include "../cabinet/links.ftl">
     <title>${user.name}</title>
 </head>
 <body>
@@ -36,102 +39,117 @@
                                 </ul>
                                 <div class="tab-content">
                                     <div id="neworder-tab_tab_1" class="tab-pane fade active in">
-                                        <form class="well form-horizontal" id="horizontalForm" action="/client/cabinet"
-                                              method="post">
-                                            <h4>Основная информация</h4>
-                                            <div id="templateName">
+                                    <@sf.form modelAttribute="bookForm" class="well form-horizontal" id="horizontalForm" action="/client/cabinet"
+                                    method="post">
+                                        <h4>Основная информация</h4>
+                                        <div id="templateName">
+                                            <div class="control-group ">
+                                                <label class="control-label" for="name">Название</label>
+                                                <div class="controls">
+                                                    <#if boolTemplate??>
+                                                        <@sf.input path="name" name="name" id="name" type="text" value="${bookTemplate.name}"/>
+                                                        <#else>
+                                                        <@sf.input path="name" name="name" id="name" type="text"/>
+                                                    </#if>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class='control-group' style='z-index:1000; position: relative;'>
+                                            <label class="control-label" for="phone">Номер телефона</label>
+                                            <div class='controls'>
+                                                <div class='input-append btn-group'>
+                                                    <#if bookTemplate??>
+                                                    <@sf.input path="phone" style="width: 173px;" type="tel"  value="${bookTemplate.phone}"/>
+                                                        <#else>
+                                                        <@sf.input path="phone" style="width: 173px;" type="tel" value="${user.phone}"/>
+                                                    </#if>
+                                                </div>
+                                                <br/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group ">
+                                            <label class="control-label" for="">Город</label>
+                                            <div class="controls">
+                                                <@sf.select path="city" size="1" name="city">
+                                                    <#list cities as city>
+                                                        <option
+                                                            <#if user.city.id == city.id>selected</#if>
+                                                            value="${city.id}">${city.name}
+                                                        </option>
+                                                    </#list>
+                                                </@sf.select>
+                                            </div>
+                                        </div>
+                                        <h4>Откуда</h4>
+                                        <div class="control-group ">
+                                            <label class="control-label">Объект/Улица</label>
+                                            <div class="controls">
+                                                <#if bookTemplate??>
+                                                    <@sf.input path="fromstreet"  type="text"  value="${bookTemplate.fromstreet}"/>
+                                                        <#else>
+                                                    <@sf.input path="fromstreet" type="text"  value="${user.street}"/>
+                                                </#if>
+                                            </div>
+                                        </div>
+                                        <div class="control-group ">
+                                            <label class="control-label" for="">Дом</label>
+                                            <div class="controls">
+                                                <#if bookTemplate??>
+                                                    <@sf.input path="fromhouse" type="text"  value="${bookTemplate.fromhouse}"/>
+                                                        <#else>
+                                                    <@sf.input path="fromhouse" type="text"  value="${user.house}"/>
+                                                </#if>
+                                            </div>
+                                        </div>
+                                        <div class="control-group ">
+                                            <label class="control-label" for="">Подъезд</label>
+                                            <div class="controls">
+                                                <@sf.input path="fromblock" id="fromBlock" name="fromBlock" type="text"/>
+                                            </div>
+                                        </div>
+                                        <div class="control-group ">
+                                            <label class="control-label" for="">Где встречать</label>
+                                            <div class="controls">
+                                                <#if bookTemplate??>
+                                                    <@sf.input path="fromplace" type="text" value="${bookTemplate.fromplace}"/>
+                                                        <#else>
+                                                    <@sf.input path="fromplace" type="text" />
+                                                </#if>
+                                            </div>
+                                        </div>
+                                        <div id="mainPoint">
+                                            <div class="pointNode">
+                                                <div class="control-group title">
+                                                    <h4><span>Куда</span></h4>
+                                                </div>
                                                 <div class="control-group ">
-                                                    <label class="control-label" for="name">Название</label>
+                                                    <label class="control-label" for="">Объект/Улица</label>
                                                     <div class="controls">
-                                                        <input name="name" id="name" type="text"
-                                                        <#if bookTemplate??>value="${bookTemplate.name}" </#if>/>
+                                                        <#if bookTemplate??>
+                                                        <@sf.input path="tostreet" type="text"  value="${bookTemplate.tostreet}"/>
+                                                        <#else>
+                                                            <@sf.input path="tostreet" type="text"/>
+                                                        </#if>
+                                                    </div>
+                                                </div>
+                                                <div class="control-group ">
+                                                    <label class="control-label" for="">Дом</label>
+                                                    <div class="controls">
+                                                        <#if bookTemplate??>
+                                                        <@sf.input path="tohouse" type="text" value="${bookTemplate.tohouse}"/>
+                                                        <#else>
+                                                            <@sf.input path="tohouse" type="text"/>
+                                                        </#if>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class='control-group' style='z-index:1000; position: relative;'>
-                                                <label class="control-label" for="phone">Номер телефона</label>
-                                                <div class='controls'>
-                                                    <div class='input-append btn-group'>
-                                                        <input data-provide="typeahead" style="width: 173px;"
-                                                               type="tel" name="phone" id="phone"
-                                                               <#if bookTemplate??>
-                                                               value="${bookTemplate.phone}"
-                                                               <#else>
-                                                               value="${user.phone}"
-                                                               </#if>/>
-                                                    </div>
-                                                    <br/>
-                                                </div>
-                                            </div>
-                                            <div class="control-group ">
-                                                <label class="control-label" for="">Город</label>
-                                                <div class="controls">
-                                                    <select size="1" name="city">
-                                                        <#list cities as city>
-                                                            <option
-                                                                <#if user.city.id == city.id>selected</#if> value="${city.id}">${city.name}
-                                                            </option>
-                                                        </#list>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <h4>Откуда</h4>
-                                            <div class="control-group ">
-                                                <label class="control-label">Объект/Улица</label>
-                                                <div class="controls">
-                                                    <input name="fromStreet" type="text"
-                                                           <#if bookTemplate??>value="${bookTemplate.fromstreet}"
-                                                           <#else> value="${user.street}"</#if>/>
-                                                </div>
-                                            </div>
-                                            <div class="control-group ">
-                                                <label class="control-label" for="">Дом</label>
-                                                <div class="controls">
-                                                    <input id="fromHouse" name="fromHouse" maxlength="15" type="text"
-                                                           <#if bookTemplate??>value="${bookTemplate.fromhouse}"
-                                                           <#else> value="${user.house}"</#if>/>
-                                                </div>
-                                            </div>
-                                            <div class="control-group ">
-                                                <label class="control-label" for="">Подъезд</label>
-                                                <div class="controls">
-                                                    <input id="fromBlock" name="fromBlock" type="text"/>
-                                                </div>
-                                            </div>
-                                            <div class="control-group ">
-                                                <label class="control-label" for="">Где встречать</label>
-                                                <div class="controls">
-                                                    <input id="fromPlace" name="fromPlace" type="text"
-                                                           <#if bookTemplate??>value="${bookTemplate.fromplace}"</#if>/>
-                                                </div>
-                                            </div>
-                                            <div id="mainPoint">
-                                                <div class="pointNode">
-                                                    <div class="control-group title">
-                                                        <h4><span>Куда</span></h4>
-                                                    </div>
-                                                    <div class="control-group ">
-                                                        <label class="control-label" for="">Объект/Улица</label>
-                                                        <div class="controls">
-                                                            <input name="toStreet" class="toStreet" type="text"
-                                                                   <#if bookTemplate??>value="${bookTemplate.tostreet}"</#if>/>
-                                                        </div>
-                                                    </div>
-                                                    <div class="control-group ">
-                                                        <label class="control-label" for="">Дом</label>
-                                                        <div class="controls">
-                                                            <input name="toHouse" class="toHouse" maxlength="15" id="" type="text"
-                                                                   <#if bookTemplate??>value="${bookTemplate.tohouse}"</#if>/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div id="form-message"></div>
-                                            <div class="form-actions">
-                                                <input class="btn btn-success" type="submit" value="Отправить заказ">
-                                            </div>
-                                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                        </form>
+                                        </div>
+                                        <div id="form-message"></div>
+                                        <div class="form-actions">
+                                            <input class="btn btn-success" type="submit" value="Отправить заказ">
+                                        </div>
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                    </@sf.form>
                                     </div>
                                 </div>
                             </div>

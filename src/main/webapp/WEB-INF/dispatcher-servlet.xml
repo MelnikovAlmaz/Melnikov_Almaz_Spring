@@ -40,4 +40,10 @@
         <property name="location" value="/WEB-INF/spring-exel-views.xml"/>
         <property name="order" value="0"/>
     </bean>
+
+    <aop:aspectj-autoproxy>
+        <aop:include name="logger"/>
+    </aop:aspectj-autoproxy>
+
+    <bean id="logger" class="aspect.LoggerAspect"/>
 </beans>

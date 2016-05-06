@@ -1,8 +1,8 @@
 package service;
 
 import entity.Book;
-import entity.City;
 import entity.Passenger;
+import form.BookForm;
 
 import java.util.List;
 
@@ -14,11 +14,7 @@ public interface BookService {
     Book getBookById(Integer id);
     List<Book> getAllBooks();
     List<Book> getAllBooksByPassengerId(Integer id);
-    void addNewBook(String name, String phone,
-                    String toHouse, int fromBlock,
-                    String fromStreet, String fromHouse,
-                    String fromPlace, City city,
-                    Passenger passenger, String toStreet);
+    void addNewBook(BookForm form, Passenger passenger);
 
     Book orderBook(int bookId, int driverId);
 

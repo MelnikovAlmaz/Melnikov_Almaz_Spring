@@ -1,17 +1,17 @@
 package service.impl;
 
 import entity.Book;
-import entity.City;
 import entity.Passenger;
+import form.BookForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import repository.BookRepository;
+import repository.CityRepository;
 import repository.DriverRepository;
 import repository.impl.AnalyticRepositoryImpl;
 import repository.impl.BookRepImpl;
 import service.BookService;
-import utils.BookFormTransformer;
 
 import java.util.List;
 
@@ -24,7 +24,8 @@ public class BookServiceImpl implements BookService {
     BookRepository bookRepository;
     @Autowired
     BookRepImpl bookRep;
-
+    @Autowired
+    CityRepository cityRepository;
     @Autowired
     AnalyticRepositoryImpl analyticRepositoryImpl;
 
@@ -50,8 +51,20 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public void addNewBook(String name, String phone, String toHouse, int fromBlock, String fromStreet, String fromHouse, String fromPlace, City city, Passenger passenger, String toStreet) {
-        Book book = BookFormTransformer.transform(name, phone, toHouse, fromBlock, fromStreet, fromHouse, fromPlace, city, passenger, toStreet);
+    public void addNewBook(BookForm form, Passenger passenger) {
+        Book book = new Book();
+        book.setName(form.getName());
+        book.setPhone(form.getPhone());
+        book.setCity(cityRepository.findOneById(form.getCity()));
+        book.setTostreet(form.getTostreet());
+        book.setTohouse(form.getTohouse());
+        book.setFromstreet(form.getFromstreet());
+        book.setFromhouse(form.getFromhouse());
+        book.setFromblock(form.getFromblock());
+        book.setFromplace(form.getFromplace());
+        book.setPassenger(passenger);
+        book.setCost(0);
+        book.setState(0);
         bookRepository.save(book);
     }
 

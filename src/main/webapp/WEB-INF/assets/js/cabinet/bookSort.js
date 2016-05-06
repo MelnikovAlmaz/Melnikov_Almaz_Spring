@@ -1,6 +1,4 @@
-$(document).ready(function () {
-    $("#bookTable").tablesorter({sortList: [[0, 0], [1, 0]]});
-});
+
 function findBooks() {
     $.ajax({
         url: "/client/cabinet/orders/find",

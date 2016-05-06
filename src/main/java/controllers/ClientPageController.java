@@ -4,6 +4,7 @@ import entity.Book;
 import entity.BookTemplate;
 import entity.City;
 import entity.Passenger;
+import form.BookForm;
 import form.FeedbackForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,23 +47,17 @@ public class ClientPageController {
         Passenger passenger = getPrincipal();
         model.addAttribute("user", passenger);
         model.addAttribute("cities", cities);
+        model.addAttribute("bookForm", new BookForm());
         return "/client/cabinet";
     }
 
     @RequestMapping(value = "/cabinet", method = RequestMethod.POST)
-    public String cabinetPOST(ModelMap model,
-                              @RequestParam(value = "name") String name,
-                              @RequestParam(value = "city") int cityId,
-                              @RequestParam(value = "phone") String phone,
-                              @RequestParam(value = "fromStreet") String fromStreet,
-                              @RequestParam(value = "fromHouse") String fromHouse,
-                              @RequestParam(value = "fromPlace") String fromPlace,
-                              @RequestParam(value = "fromBlock") int fromBlock,
-                              @RequestParam(value = "toHouse") String toHouse,
-                              @RequestParam(value = "toStreet") String toStreet) {
+    public String cabinetPOST(@ModelAttribute("bookForm")@Valid BookForm form, BindingResult result) {
+        if (result.hasErrors()) {
+            return "redirect:/client/cabinet";
+        }
         Passenger passenger = getPrincipal();
-        City city = cityService.getCityById(cityId);
-        bookService.addNewBook(name, phone, toHouse, fromBlock, fromStreet, fromHouse, fromPlace, city, passenger, toStreet);
+        bookService.addNewBook(form, passenger);
         return "redirect:/client/cabinet";
     }
 
@@ -120,6 +115,7 @@ public class ClientPageController {
         model.addAttribute("bookTemplate", bookTemplate);
         model.addAttribute("user", passenger);
         model.addAttribute("cities", cities);
+        model.addAttribute("bookForm", new BookForm());
         return "/client/cabinet";
     }
 
