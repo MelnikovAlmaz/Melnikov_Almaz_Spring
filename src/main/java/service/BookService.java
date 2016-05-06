@@ -27,4 +27,6 @@ public interface BookService {
     Book getDriverActiveBook(int id);
 
     List<Book> getAllBooksByDriverId(int driverId);
+
+    List<Book> getAllBooksByNameAndPassenger(String name, Passenger passenger);
 }

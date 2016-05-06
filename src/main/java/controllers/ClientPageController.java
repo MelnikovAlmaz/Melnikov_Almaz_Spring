@@ -1,5 +1,6 @@
 package controllers;
 
+import entity.Book;
 import entity.BookTemplate;
 import entity.City;
 import entity.Passenger;
@@ -84,6 +85,19 @@ public class ClientPageController {
         Passenger passenger = getPrincipal();
         bookTemplateService.addNewBookTemplateFromBook(id, passenger);
         return "redirect:/client/cabinet/orders";
+    }
+
+    @RequestMapping(value = "/cabinet/orders/find", method = RequestMethod.GET)
+    public @ResponseBody
+    List<Book> countInMonth(@RequestParam(value = "name") String name) {
+        Passenger passenger = getPrincipal();
+        if(!name.equals("")){
+            List<Book> books = bookService.getAllBooksByNameAndPassenger(name, passenger);
+            return books;
+        }
+        else {
+            return bookService.getAllBooksByPassengerId(passenger.getId());
+        }
     }
 
     @RequestMapping(value = "/cabinet/templates", method = RequestMethod.GET)

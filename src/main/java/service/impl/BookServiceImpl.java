@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import repository.BookRepository;
 import repository.DriverRepository;
 import repository.impl.AnalyticRepositoryImpl;
+import repository.impl.BookRepImpl;
 import service.BookService;
 import utils.BookFormTransformer;
 
@@ -21,6 +22,8 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
     @Autowired
     BookRepository bookRepository;
+    @Autowired
+    BookRepImpl bookRep;
 
     @Autowired
     AnalyticRepositoryImpl analyticRepositoryImpl;
@@ -80,6 +83,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> getAllBooksByDriverId(int driverId) {
         return bookRepository.findAllByDriver_IdOrderByDateDesc(driverId);
+    }
+
+    @Override
+    public List<Book> getAllBooksByNameAndPassenger(String name, Passenger passenger) {
+        return bookRep.findAllWhereNameStartsWithByPassengerId(name, passenger.getId());
     }
 
 }

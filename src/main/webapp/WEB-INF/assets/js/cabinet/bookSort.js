@@ -1,15 +1,26 @@
-function renderYearChart() {
+$(document).ready(function () {
+    $("#bookTable").tablesorter({sortList: [[0, 0], [1, 0]]});
+});
+function findBooks() {
     $.ajax({
-        url: '/driver/cabinet/orders/find',
-        data: {"bookName": $("#bookName").val()},
+        url: "/client/cabinet/orders/find",
+        data: {"name": $("#bookName").val()},
         dataType: "json",
-        success: function (data, textStatus) {
-            var bookTable = $("#bookTable");
-            var text = "";
-            for(var book in data){
-                text = text + "<tr><td>" + book.name +"</td><td>" + book.city.name+"</td><td>" + book.fromstreet +" " + book.fromhouse + "</td><td>" + book.tostreet + " " + book.tohouse + "</td><td>" + book.cost + '</td><td><a href="/client/cabinet/orders/totemplate/' + book.id +'><button class="btn btn-success"' + '>Создать шаблон</button></a></td></tr>';
+        success: function (resp) {
+            if (resp.length > 0) {
+                $("#tbody").text("");
+                for (var i = 0; i < resp.length; i++) {
+                    $("#tbody").append("<tr>");
+                    $("#tbody").append("<td>" + resp[i].name + "</td>");
+                    $("#tbody").append("<td>" + resp[i].city.name + "</td>");
+                    $("#tbody").append("<td>" + resp[i].fromstreet + " " + resp[i].fromhouse + "</td>");
+                    $("#tbody").append("<td>" + resp[i].tostreet + " " + resp[i].tohouse + "</td>");
+                    $("#tbody").append("<td>" + resp[i].cost + "</td>");
+                    $("#tbody").append("<td><a href=\"/client/cabinet/orders/totemplate/" + resp[i].id + "\"><button class=\"btn btn-success\">Создать шаблон</button></a></td>");
+                }
+            } else {
+                $("#tbody").text("No results.");
             }
-            bookTable.innerHTML = text;
         }
-    });
+    })
 }
